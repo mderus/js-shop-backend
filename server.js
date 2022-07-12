@@ -1,6 +1,7 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const {productRouter} = require('./routes/productRoutes');
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
+
+app.use('/api/products', productRouter);
 
 const PORT = process.env.PORT || 5000;
 
