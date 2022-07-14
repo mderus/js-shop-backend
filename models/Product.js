@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+const sequelize = require('../config/db');
 
-module.exports = sequelize.define(
+const Product = sequelize.define(
   'Product',
   {
     _id: {
@@ -54,3 +55,5 @@ module.exports = sequelize.define(
     timestamps: true,
   }
 );
+
+module.exports = Product;

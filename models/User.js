@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+const sequelize = require('../config/db');
 
-module.exports = sequelize.define(
+const User = sequelize.define(
   'User',
   {
     _id: {
@@ -32,3 +33,5 @@ module.exports = sequelize.define(
     timestapms: true,
   }
 );
+
+module.exports = User;

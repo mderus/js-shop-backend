@@ -1,22 +1,30 @@
 const express = require('express');
-const {ProductRecord} = require('../records/productRecord');
+const asyncHandler = require('express-async-handler');
+const Product = require('../models/Product');
 
 const productRouter = express.Router();
 
 productRouter
-  .get('/', async (req, res) => {
-    const products = await ProductRecord.getProducts();
-    res.json(products);
-  })
-  .get('/:id', async (req, res) => {
-    const product = await ProductRecord.getProductById(req.params.id);
+  .get(
+    '/',
+    asyncHandler(async (req, res) => {
+      const products = await Product.findAll(req.params.products);
 
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404);
-      throw new Error('Product not found');
-    }
-  });
+      res.json(products);
+    })
+  )
+  .get(
+    '/:id',
+    asyncHandler(async (req, res) => {
+      const product = await Product.findOne({where: {_id: req.params.id}});
+
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404);
+        throw new Error('Product not found');
+      }
+    })
+  );
 
 module.exports = {productRouter};
