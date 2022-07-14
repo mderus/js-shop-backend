@@ -10,6 +10,7 @@ class ProductRecord {
     this.description = product.description;
     this.brand = product.brand;
     this.category = product.category;
+    this.ammo = product.ammo;
     this.price = product.price;
     this.countInStock = product.countInStock;
   }
