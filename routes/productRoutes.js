@@ -9,7 +9,6 @@ productRouter
     '/',
     asyncHandler(async (req, res) => {
       const products = await Product.findAll(req.params.products);
-
       res.json(products);
     })
   )
