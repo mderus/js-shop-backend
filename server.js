@@ -7,12 +7,16 @@ dotenv.config();
 
 const app = express();
 
+require('./config/db');
+
 app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
+
+// require('./seeders/seeder')();
 
 app.use('/api/products', productRouter);
 
