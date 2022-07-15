@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const {productRouter} = require('./routes/productRoutes');
+const {userRouter} = require('./routes/userRoutes');
+const {notFound, errorHandler} = require('./middleware/errorMiddleware');
 
 dotenv.config();
 
@@ -19,6 +21,11 @@ app.get('/', (req, res) => {
 // require('./seeders/seeder')();
 
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
+
+// error handling
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
