@@ -35,8 +35,26 @@ const User = sequelize.define(
   }
 );
 
+User.addHook(
+  'beforeCreate',
+  async (user) => (user.password = await bcrypt.hash(user.password, 10))
+);
+
 User.prototype.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+// User.beforeCreate((user, options) => {
+//   return bcrypt
+//     .hash(user.password, 10)
+//     .then((hash) => {
+//       user.password = hash;
+//     })
+//     .catch((error) => {
+//       throw new Error();
+//     });
+// });
+
+User.pre;
 
 module.exports = User;
