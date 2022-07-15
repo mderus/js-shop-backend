@@ -12,49 +12,74 @@ const Order = sequelize.define(
     },
     userId: {
       type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
       allowNull: false,
       associations: {
         model: 'User',
         key: '_id',
       },
     },
-    orderItems: [
-      {
-        name: {type: Sequelize.STRING(255), allowNull: false},
-        qty: {type: Sequelize.NUMBER(2), allowNull: false},
-        image: {type: Sequelize.STRING(255), allowNull: false},
-        price: {type: Sequelize.DECIMAL(11, 2), allowNull: false},
-        product: {
-          type: {
-            associations: {
-              model: 'Product',
-              key: '_id',
-            },
-          },
-          allowNull: false,
-        },
-      },
-    ],
-    shippingAddress: [
-      {
-        address: {type: Sequelize.STRING(255), allowNull: false},
-        citry: {type: Sequelize.STRING(255), allowNull: false},
-        postalCode: {type: Sequelize.STRING(255), allowNull: false},
-        country: {type: Sequelize.STRING(255), allowNull: false},
-      },
-    ],
-    paymentMethod: {
-      type: Sequelize.STRING(255),
+    orderItemsName: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
-    paymentResult: [
-      {
-        id: {type: Sequelize.STRING(255)},
-        status: {type: Sequelize.STRING(255)},
-        update_time: {type: Sequelize.STRING(255)},
-        email_address: {type: Sequelize.STRING(255)},
+    orderItemsQty: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    orderItemsImage: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    orderItemsPrice: {
+      type: Sequelize.DECIMAL(11, 2),
+      allowNull: false,
+    },
+    orderItemsProduct: {
+      type: {
+        associations: {
+          model: 'Product',
+          key: '_id',
+        },
       },
-    ],
+      allowNull: false,
+    },
+    shippingAddress: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    shippingCity: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    shippingPostalCode: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    shippingCountry: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    paymentMethod: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    paymentResultId: {
+      type: Sequelize.UUID,
+      allowNull: false,
+    },
+    paymentResultStatus: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    paymentResultUpdateTime: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    paymentResultEmail: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     taxPrice: {
       type: Sequelize.DECIMAL(11, 2),
       allowNull: false,
