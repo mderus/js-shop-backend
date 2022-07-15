@@ -35,22 +35,26 @@ const Order = sequelize.define(
         },
       },
     ],
-    shippingAddress: {
-      address: {type: Sequelize.STRING(255), allowNull: false},
-      citry: {type: Sequelize.STRING(255), allowNull: false},
-      postalCode: {type: Sequelize.STRING(255), allowNull: false},
-      country: {type: Sequelize.STRING(255), allowNull: false},
-    },
+    shippingAddress: [
+      {
+        address: {type: Sequelize.STRING(255), allowNull: false},
+        citry: {type: Sequelize.STRING(255), allowNull: false},
+        postalCode: {type: Sequelize.STRING(255), allowNull: false},
+        country: {type: Sequelize.STRING(255), allowNull: false},
+      },
+    ],
     paymentMethod: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    paymentResult: {
-      id: {type: Sequelize.STRING(255)},
-      status: {type: Sequelize.STRING(255)},
-      update_time: {type: Sequelize.STRING(255)},
-      email_address: {type: Sequelize.STRING(255)},
-    },
+    paymentResult: [
+      {
+        id: {type: Sequelize.STRING(255)},
+        status: {type: Sequelize.STRING(255)},
+        update_time: {type: Sequelize.STRING(255)},
+        email_address: {type: Sequelize.STRING(255)},
+      },
+    ],
     taxPrice: {
       type: Sequelize.DECIMAL(11, 2),
       allowNull: false,

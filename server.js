@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const {productRouter} = require('./routes/productRoutes');
 const {userRouter} = require('./routes/userRoutes');
+const {orderRouter} = require('./routes/orderRoutes');
 const {notFound, errorHandler} = require('./middleware/errorMiddleware');
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 // error handling
 app.use(notFound);
