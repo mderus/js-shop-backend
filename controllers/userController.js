@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const {generateToken} = require('../utils/generateToken');
+const bcrypt = require('bcryptjs');
 
 // Auth user + get token
 // POST /api/users/login
@@ -76,8 +77,43 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// Update user profile
+// PUT /api/users/profile
+// Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findOne({where: {_id: req.user._id}});
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
+    const updatedUser = await user.update({
+      name: user.name,
+      email: user.email,
+      password: hashedPassword,
+    });
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
 module.exports = {
   authUser,
   getUserProfile,
   registerUser,
+  updateUserProfile,
 };
