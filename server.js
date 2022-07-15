@@ -10,9 +10,10 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
+
 require('./config/db');
 
-app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
