@@ -12,12 +12,7 @@ const app = express();
 
 require('./config/db');
 
-app.use(
-  cors({
-    origin: 'https://cool-shortbread-f56f49.netlify.app/',
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
