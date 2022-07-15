@@ -10,6 +10,7 @@ dotenv.config();
 
 const app = express();
 
+app.options('*', cors());
 app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
 
 require('./config/db');
