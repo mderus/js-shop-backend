@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 // GET /api/products
 // Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.findAll(req.params.products);
+  const products = await Product.find({});
   res.json(products);
 });
 
