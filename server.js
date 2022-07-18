@@ -13,7 +13,7 @@ db();
 
 const app = express();
 
-app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
+app.use(cors());
 
 app.use(express.json());
 
