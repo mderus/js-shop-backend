@@ -1,120 +1,78 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Order = sequelize.define(
-  'Order',
+const orderSchema = mongoose.Schema(
   {
-    _id: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
-    userId: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: false,
-      associations: {
-        model: 'User',
-        key: '_id',
-      },
-    },
-    orderItemsName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    orderItemsQty: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    orderItemsImage: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    orderItemsPrice: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
-    },
-    orderItemsProduct: {
-      type: {
-        associations: {
-          model: 'Product',
-          key: '_id',
+    orderItems: [
+      {
+        name: {type: String, required: true},
+        qty: {type: Number, required: true},
+        image: {type: String, required: true},
+        price: {type: Number, required: true},
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
         },
       },
-      allowNull: false,
-    },
+    ],
     shippingAddress: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    shippingCity: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    shippingPostalCode: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    shippingCountry: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      address: {type: String, required: true},
+      city: {type: String, required: true},
+      postalCode: {type: String, required: true},
+      country: {type: String, required: true},
     },
     paymentMethod: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
-    paymentResultId: {
-      type: Sequelize.UUID,
-      allowNull: false,
-    },
-    paymentResultStatus: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    paymentResultUpdateTime: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    paymentResultEmail: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    paymentResult: {
+      id: {type: String},
+      status: {type: String},
+      update_time: {type: String},
+      email_address: {type: String},
     },
     taxPrice: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
-      defaultValue: 0.0,
+      type: Number,
+      required: true,
+      default: 0.0,
     },
     shippingPrice: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
-      defaultValue: 0.0,
+      type: Number,
+      required: true,
+      default: 0.0,
     },
     totalPrice: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
-      defaultValue: 0.0,
+      type: Number,
+      required: true,
+      default: 0.0,
     },
     isPaid: {
-      type: Sequelize.BOOLEAN(false),
-      allowNull: false,
-      defaultValue: false,
+      type: Boolean,
+      required: true,
+      default: false,
     },
     paidAt: {
-      type: Sequelize.DATE,
+      type: Date,
     },
     isDelivered: {
-      type: Sequelize.BOOLEAN(false),
-      allowNull: false,
-      defaultValue: false,
+      type: Boolean,
+      required: true,
+      default: false,
     },
     deliveredAt: {
-      type: Sequelize.DATE,
+      type: Date,
     },
   },
   {
-    timestapms: true,
+    timestamps: true,
   }
 );
+
+const Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;

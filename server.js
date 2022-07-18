@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const {db} = require('./config/db');
 const {productRouter} = require('./routes/productRoutes');
 const {userRouter} = require('./routes/userRoutes');
 const {orderRouter} = require('./routes/orderRoutes');
@@ -8,12 +9,11 @@ const {notFound, errorHandler} = require('./middleware/errorMiddleware');
 
 dotenv.config();
 
+db();
+
 const app = express();
 
-app.options('*', cors());
 app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
-
-require('./config/db');
 
 app.use(express.json());
 

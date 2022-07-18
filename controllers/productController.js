@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 // GET /api/products
 // Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.findAll(req.params.products);
+  const products = await Product.find({});
   res.json(products);
 });
 
@@ -13,7 +13,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // GET /api/products/:id
 // Public
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findOne({where: {_id: req.params.id}});
+  const product = await Product.findById(req.params.id);
 
   if (product) {
     res.json(product);
