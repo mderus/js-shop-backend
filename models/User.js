@@ -1,60 +1,43 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const User = sequelize.define(
-  'User',
+const userSchema = mongoose.Schema(
   {
-    _id: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
     name: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     email: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-      unique: true,
+      type: String,
+      required: true,
     },
     password: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     isAdmin: {
-      type: Sequelize.BOOLEAN(false),
-      allowNull: false,
-      defaultValue: false,
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   {
-    timestapms: true,
+    timestamps: true,
   }
 );
 
-User.addHook(
-  'beforeCreate',
-  async (user) => (user.password = await bcrypt.hash(user.password, 10))
-);
-
-User.prototype.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.matchPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
-// User.beforeCreate((user, options) => {
-//   return bcrypt
-//     .hash(user.password, 10)
-//     .then((hash) => {
-//       user.password = hash;
-//     })
-//     .catch((error) => {
-//       throw new Error();
-//     });
-// });
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
 
-User.pre;
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

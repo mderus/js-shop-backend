@@ -13,7 +13,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // GET /api/products/:id
 // Public
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findOne({where: {_id: req.params.id}});
+  const product = await Product.findById(req.params.id);
 
   if (product) {
     res.json(product);

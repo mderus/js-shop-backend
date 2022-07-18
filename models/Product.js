@@ -1,59 +1,52 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Product = sequelize.define(
-  'Product',
+const productSchema = mongoose.Schema(
   {
-    _id: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    userId: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      associations: {
-        model: 'User',
-        key: '_id',
-      },
-    },
-    name: {
-      type: Sequelize.STRING(100),
-      allowNull: false,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
     image: {
-      type: Sequelize.STRING(100),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     description: {
-      type: Sequelize.DataTypes.STRING(255),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     brand: {
-      type: Sequelize.STRING(100),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     category: {
-      type: Sequelize.STRING(100),
-      allowNull: false,
+      type: String,
+      required: true,
     },
     ammo: {
-      type: Sequelize.STRING(100),
-      allowNull: false,
+      type: String,
+      required: true,
+    },
+    ammo: {
+      type: String,
+      required: true,
     },
     price: {
-      type: Sequelize.DECIMAL(11, 2),
-      allowNull: false,
+      type: Number,
+      required: true,
+      default: 0,
     },
     countInStock: {
-      type: Sequelize.INTEGER(2),
-      allowNull: false,
+      type: Number,
+      required: true,
+      default: 0,
     },
   },
   {
     timestamps: true,
   }
 );
+
+const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
