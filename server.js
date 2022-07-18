@@ -21,8 +21,6 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// require('./seeders/seeder')();
-
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
