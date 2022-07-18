@@ -13,15 +13,13 @@ db();
 
 const app = express();
 
-app.use(cors({origin: 'https://cool-shortbread-f56f49.netlify.app/'}));
+app.use(cors());
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
-
-// require('./seeders/seeder')();
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
