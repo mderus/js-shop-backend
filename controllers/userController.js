@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const authUser = asyncHandler(async (req, res) => {
   const {email, password} = req.body;
 
-  const user = await User.findOne({where: {email}});
+  const user = await User.findOne({email});
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -31,7 +31,7 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const {name, email, password} = req.body;
 
-  const userExists = await User.findOne({where: {email}});
+  const userExists = await User.findOne({email});
 
   if (userExists) {
     res.status(400);
@@ -62,7 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // GET /api/users/profile
 // Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne({where: {_id: req.user._id}});
+  const user = await User.findById(req.user._id);
 
   if (user) {
     res.json({
@@ -81,7 +81,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // PUT /api/users/profile
 // Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne({where: {_id: req.user._id}});
+  const user = await User.findById(req.user._id);
 
   if (user) {
     user.name = req.body.name || user.name;
@@ -90,13 +90,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.password = req.body.password || user.password;
     }
 
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-
-    const updatedUser = await user.update({
-      name: user.name,
-      email: user.email,
-      password: hashedPassword,
-    });
+    const updatedUser = await user.save();
 
     res.json({
       _id: updatedUser._id,
